@@ -5,4 +5,4 @@ const App = () => {
   return <div>hello</div>
 }
 
-render(<App />, document.querySelector("#container"))
+render(<App />, document.querySelector("#root"))
