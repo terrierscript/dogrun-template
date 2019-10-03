@@ -1,10 +1,7 @@
 {
-  "name": "frontend-template",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/terrierscript/frontend-template.git",
-  "author": "terrierscript <13282103+terrierscript@users.noreply.github.com>",
-  "license": "MIT",
+  "private": true,
   "dependencies": {
     "@babel/core": "^7.6.2",
     "@babel/polyfill": "^7.6.0",
