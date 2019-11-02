@@ -1,7 +1,7 @@
 import React, { useRef, useLayoutEffect, useState } from "react"
 import styled, { css } from "styled-components"
 import { SampleFont } from "../Fonts"
-import { ScaleCaclurator } from "./ScaleCalcurator"
+import { ScaleCaclurator, Cloak } from "./ScaleCalcurator"
 import { OutputCanvas } from "./OutputCanvas"
 import { DrawCanvas } from "./DrawCanvas"
 import { nnyohhaMask } from "./presetMask"
@@ -64,7 +64,7 @@ export const MaskCanvas = ({ text, onChangeMask, fontSize }) => {
 
   return (
     <>
-      <div>
+      <Cloak>
         <ScaleCaclurator
           text={text}
           fontSize={fontSize}
@@ -73,7 +73,7 @@ export const MaskCanvas = ({ text, onChangeMask, fontSize }) => {
           }}
         />
         <img src={nnyohhaMask} ref={defaultImageRef} />
-      </div>
+      </Cloak>
       <div>
         <Mode
           mode={mode}

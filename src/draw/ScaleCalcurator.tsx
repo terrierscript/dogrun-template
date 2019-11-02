@@ -1,7 +1,7 @@
 import React, { useRef, useLayoutEffect } from "react"
 import styled from "styled-components"
 import { SampleFont, ResultFont } from "../Fonts"
-const Cloak = styled.div`
+export const Cloak = styled.div`
   opacity: 0;
   z-index: -1;
   position: absolute;
@@ -21,11 +21,11 @@ export const ScaleCaclurator = ({ text, fontSize, onChangeScale }) => {
     onChangeScale(baseWidth / sampleWidth)
   }, [text])
   return (
-    <Cloak>
+    <>
       <ResultFont ref={baseRef} fontSize={fontSize}>
         {text}
       </ResultFont>
       <SampleFont ref={samplingRef}>{text}</SampleFont>
-    </Cloak>
+    </>
   )
 }
