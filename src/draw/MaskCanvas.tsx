@@ -83,7 +83,7 @@ export const MaskCanvas = ({ text, onChangeMask, fontSize }) => {
             setMode(mode)
           }}
         />
-        <button
+        {/* <button
           onClick={() => {
             if (clearImageRef.current) {
               setImageSource(clearImageRef.current)
@@ -91,7 +91,7 @@ export const MaskCanvas = ({ text, onChangeMask, fontSize }) => {
           }}
         >
           Clear Mask
-        </button>
+        </button> */}
         <Container height={size[1]}>
           <SampleFont ref={sampleRef}>{text}</SampleFont>
           <DrawCanvas
