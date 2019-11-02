@@ -30,24 +30,13 @@ const Mode = ({ mode, onChange }) => {
   )
 }
 
-export const MaskCanvas = ({ text, onChangeMask, fontSize }) => {
+const Drawer = ({ mode, size, setImageSource }) => {
   const ref = useRef<HTMLCanvasElement>()
-  const [scale, setScale] = useState(1)
-  const [imageSource, _setImageSource] = useState<{
-    source: HTMLCanvasElement
-    timestamp: number
-  } | null>(null)
   const ctxRef = useRef<{
     canvas: HTMLCanvasElement
     ctx: CanvasRenderingContext2D
   }>()
-  const [mode, setMode] = useState("mask")
-  const setImageSource = (elm: HTMLCanvasElement) => {
-    _setImageSource({
-      source: elm,
-      timestamp: new Date().getTime()
-    })
-  }
+
   useLayoutEffect(() => {
     if (ref.current === undefined) return
     const ctx = ref.current.getContext("2d")
@@ -60,7 +49,7 @@ export const MaskCanvas = ({ text, onChangeMask, fontSize }) => {
     ctx.stroke()
 
     setImageSource(canvas)
-  }, [])
+  }, [size])
 
   const draw = (rect: Rect) => {
     if (!ctxRef.current) {
@@ -74,7 +63,40 @@ export const MaskCanvas = ({ text, onChangeMask, fontSize }) => {
     const img = ctx.getImageData(0, 0, canvas.width, canvas.height)
     setImageSource(canvas)
   }
-  console.log(imageSource)
+  return (
+    <>
+      <Canvas width={size[0]} height={size[1]} ref={ref} />
+      <GhostCanvas
+        width={size[0]}
+        height={size[1]}
+        onRectDraw={(rect) => {
+          draw(rect)
+        }}
+      />
+    </>
+  )
+}
+
+export const MaskCanvas = ({ text, onChangeMask, fontSize }) => {
+  const sampleRef = useRef<HTMLElement>()
+  const [scale, setScale] = useState(1)
+  const [imageSource, _setImageSource] = useState<{
+    source: HTMLCanvasElement
+    timestamp: number
+  } | null>(null)
+  const [mode, setMode] = useState("mask")
+  const [size, setSize] = useState([0, 0])
+
+  const setImageSource = (elm: HTMLCanvasElement) => {
+    _setImageSource({
+      source: elm,
+      timestamp: new Date().getTime()
+    })
+  }
+  useLayoutEffect(() => {
+    if (!sampleRef.current) return
+    setSize([sampleRef.current.clientWidth, sampleRef.current.clientHeight])
+  }, [])
 
   return (
     <>
@@ -90,15 +112,9 @@ export const MaskCanvas = ({ text, onChangeMask, fontSize }) => {
       <div>
         <Mode mode={mode} onChange={(mode) => setMode(mode)} />
         <Container>
-          <SampleFont>{text}</SampleFont>
-          <Canvas ref={ref} />
-          <GhostCanvas
-            width={300}
-            height={150}
-            onRectDraw={(rect) => {
-              draw(rect)
-            }}
-          />
+          <SampleFont ref={sampleRef}>{text}</SampleFont>
+          <Drawer mode={mode} size={size} setImageSource={setImageSource} />
+
           {imageSource && (
             <OutputCanvas
               scale={scale}

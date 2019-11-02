@@ -20,5 +20,11 @@ export const OutputCanvas: FC<{
     onChange(imgUrl)
     // ctx.restore()
   }, [scale, source, timestamp])
-  return <CloakCanvas ref={ref}></CloakCanvas>
+  return (
+    <CloakCanvas
+      width={source.width * scale}
+      height={source.height * scale}
+      ref={ref}
+    ></CloakCanvas>
+  )
 }
