@@ -39,13 +39,12 @@ const Mode = ({ mode, onChange }) => {
 
 export const MaskCanvas = ({ text, onChangeMask, fontSize }) => {
   const sampleRef = useRef<HTMLElement>()
-  const defaultImageRef = useRef<HTMLImageElement>()
-  const clearImageRef = useRef<HTMLImageElement>()
   const [scale, setScale] = useState(1)
   const [imageSource, _setImageSource] = useState<{
     source: HTMLCanvasElement | HTMLImageElement
     timestamp: number
   } | null>(null)
+  const [maskPreset, setMaskPreset] = useState(nnyohhaMask)
   const [mode, setMode] = useState("mask")
   const [size, setSize] = useState([0, 0])
 
@@ -58,9 +57,6 @@ export const MaskCanvas = ({ text, onChangeMask, fontSize }) => {
   useLayoutEffect(() => {
     if (!sampleRef.current) return
     setSize([sampleRef.current.clientWidth, sampleRef.current.clientHeight])
-    if (defaultImageRef.current) {
-      setImageSource(defaultImageRef.current)
-    }
   }, [])
 
   return (
@@ -73,8 +69,6 @@ export const MaskCanvas = ({ text, onChangeMask, fontSize }) => {
             setScale(newScale)
           }}
         />
-        <img src={nnyohhaMask} ref={defaultImageRef} />
-        <img src={clearMask} ref={clearImageRef} />
       </Cloak>
       <div>
         <Mode
@@ -85,9 +79,7 @@ export const MaskCanvas = ({ text, onChangeMask, fontSize }) => {
         />
         {/* <button
           onClick={() => {
-            if (clearImageRef.current) {
-              setImageSource(clearImageRef.current)
-            }
+            setMaskPreset(clearMask)
           }}
         >
           Clear Mask
@@ -97,7 +89,7 @@ export const MaskCanvas = ({ text, onChangeMask, fontSize }) => {
           <DrawCanvas
             mode={mode}
             size={size}
-            defaultSource={imageSource && imageSource.source}
+            maskPreset={maskPreset}
             setImageSource={setImageSource}
           />
 
