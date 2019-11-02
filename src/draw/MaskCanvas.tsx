@@ -1,9 +1,9 @@
 import React, { useRef, useLayoutEffect, useState } from "react"
 import styled from "styled-components"
-import { SampleFont } from "./Fonts"
+import { SampleFont } from "../Fonts"
 import { ScaleCaclurator } from "./ScaleCalcurator"
 import { OutputCanvas } from "./OutputCanvas"
-import { Drawer } from "./Drawer"
+import { DrawCanvas } from "./DrawCanvas"
 const Container = styled.div`
   /* position: relative; */
   /* border: 1px solid black; */
@@ -11,6 +11,7 @@ const Container = styled.div`
 
 const Mode = ({ mode, onChange }) => {
   const modes = ["mask", "unmask"]
+
   return (
     <div>
       {modes.map((modeName) => (
@@ -18,9 +19,13 @@ const Mode = ({ mode, onChange }) => {
           <input
             type="radio"
             name="mode"
-            value={"mask"}
             checked={modeName === mode}
-            onChange={() => onChange(modeName)}
+            onChange={() => {
+              onChange(modeName)
+            }}
+            onClick={() => {
+              onChange(modeName)
+            }}
           />
           {modeName}
         </label>
@@ -62,13 +67,20 @@ export const MaskCanvas = ({ text, onChangeMask, fontSize }) => {
         />
       </div>
       <div>
-        <Mode mode={mode} onChange={(mode) => setMode(mode)} />
+        <Mode
+          mode={mode}
+          onChange={(mode) => {
+            console.log(mode)
+            setMode(mode)
+          }}
+        />
         <Container>
           <SampleFont ref={sampleRef}>{text}</SampleFont>
-          <Drawer mode={mode} size={size} setImageSource={setImageSource} />
+          <DrawCanvas mode={mode} size={size} setImageSource={setImageSource} />
 
           {imageSource && (
             <OutputCanvas
+              baseColor={"black"}
               scale={scale}
               source={imageSource.source}
               timestamp={imageSource.timestamp}

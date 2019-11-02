@@ -5,7 +5,7 @@ import React, {
   useLayoutEffect
 } from "react"
 import { render } from "react-dom"
-import { MaskCanvas } from "./MaskCanvas"
+import { MaskCanvas } from "./draw/MaskCanvas"
 import { ResultFont } from "./Fonts"
 
 const App = () => {
@@ -19,11 +19,14 @@ const App = () => {
       <ResultFont ref={ref} mask={mask} fontSize={fontSize}>
         {text}
       </ResultFont>
-      <img src={mask || ""} />
+      {/* <img src={mask || ""} /> */}
       <div>
         あの<ResultFont mask={mask}>{text}</ResultFont>の すきとおった風、
+        <br />
         夏でも底に冷たさをもつ青いそら、 うつくしい森で飾られたモーリオ市、
+        <br />
         郊外のぎらぎらひかる草の波。
+        <br />
       </div>
       <MaskCanvas
         fontSize={"1em"}

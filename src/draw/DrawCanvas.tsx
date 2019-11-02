@@ -1,5 +1,5 @@
 import React, { useRef, useState, useLayoutEffect, FC } from "react"
-import { Canvas } from "./Canvas"
+import { Canvas } from "../Canvas"
 export type Point = [number, number]
 export type Rect = [number, number, number, number]
 const getRect = (x1, y1, x2, y2): Rect => {
@@ -9,24 +9,32 @@ const getRect = (x1, y1, x2, y2): Rect => {
   const h = Math.abs(y1 - y2)
   return [x, y, w, h]
 }
-type DrawFn = (rect: Rect) => void
-export const GhostCanvas: FC<{
-  onRectDraw: DrawFn
+// type DrawFn = (rect: Rect) => void
+// export const Drawer = ({ mode,  setImageSource }) => {
+
+export const DrawCanvas: FC<{
+  mode: string
+  setImageSource: Function
+  size: any
   [rest: string]: unknown
-}> = ({ onRectDraw, ...rest }) => {
+}> = ({ setImageSource, mode, size, ...rest }) => {
   const ref = useRef<HTMLCanvasElement>()
   const ctxRef = useRef<CanvasRenderingContext2D>()
-  const [startPoint, setStartPoint] = useState<Point | null>(null)
-  const [drawRect, setDrawRect] = useState<Rect | null>(null)
+  const [before, setBefore] = useState<Point | null>(null)
+  const [draw, setDraw] = useState(false)
+  const [width, height] = size
+  // const color = mode === "mask" ? "white" : "black"
   useLayoutEffect(() => {
     if (ref.current === undefined) {
       return
     }
+
     const ctx = ref.current.getContext("2d")
     if (ctx === null) {
       return
     }
     ctxRef.current = ctx
+    setImageSource(ref.current)
   }, [])
   const getCanvasPos = (mx, my): Point | null => {
     if (!ref.current) {
@@ -41,45 +49,51 @@ export const GhostCanvas: FC<{
     return [cx, cy]
   }
   const start = (mx: number, my: number) => {
-    const ctx = ctxRef.current
-    if (!ctx) return
     if (!ref.current) return
-    const pos = getCanvasPos(mx, my)
-    setStartPoint(pos)
+    setDraw(true)
+    setBefore(getCanvasPos(mx, my))
+    const ctx = ctxRef.current //.getContext("2d")
+    if (!ctx) return
+    ctx.globalCompositeOperation =
+      mode === "mask" ? "source-over" : "destination-out"
+    ctx.lineWidth = 5
+    ctx.strokeStyle = "white"
+    ctx.lineCap = "round"
   }
   const move = (mx: number, my: number) => {
     if (!ctxRef.current) return
     if (!ref.current) return
-    if (!startPoint) return
+    if (!before) return
+    if (!draw) return
+    // const ctx = ref.current.getContext("2d")
     const ctx = ctxRef.current
-    const [bx, by] = startPoint
-    const pos = getCanvasPos(mx, my)
-    if (!pos) {
+    if (!ctx) return
+    // const [bx, by] = before
+    const curr = getCanvasPos(mx, my)
+    if (!curr) {
       return
     }
-    const [cx, cy] = pos
-    ctx.clearRect(0, 0, ref.current.width, ref.current.height)
     ctx.beginPath()
-    ctx.strokeStyle = "gray"
-    const rect = getRect(bx, by, cx, cy)
-    ctx.rect(...rect)
+    console.log(before, curr)
+    ctx.moveTo(...before)
+    ctx.lineTo(...curr)
+    ctx.closePath()
     ctx.stroke()
-    setDrawRect(rect)
+    setBefore(curr)
   }
   const end = () => {
-    if (drawRect) {
-      onRectDraw(drawRect)
-    }
-    setStartPoint(null)
-    setDrawRect(null)
+    setDraw(false)
     if (!ctxRef.current) return
-    if (!ref.current) return
     const ctx = ctxRef.current
-    ctx.clearRect(0, 0, ref.current.width, ref.current.height)
+    ctx.stroke()
+    ctx.closePath()
+    setImageSource(ref.current)
   }
   return (
     <Canvas
       {...rest}
+      width={width}
+      height={height}
       ref={ref}
       onMouseDown={(e) => start(e.clientX, e.clientY)}
       onMouseUp={(e) => end()}

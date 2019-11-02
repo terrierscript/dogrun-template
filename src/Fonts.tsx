@@ -8,15 +8,19 @@ export const SampleFont = styled.div`
   position: absolute;
   font-weight: bold;
   font-size: 3em;
+  user-select: none;
   color: rgba(255, 0, 0, 1);
 `
 export const ResultFont = styled.span`
   display: inline-block;
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  ${({ mask, fontSize }) => css`
-    background-image: url(${mask});
-    font-size: ${fontSize};
-  `}
+  ${({ mask, fontSize, color }) => {
+    const ready = mask && mask.length > 10
+    return css`
+      color: ${ready ? "transparent" : color};
+      background-clip: ${ready ? "text" : "none"};
+      -webkit-background-clip: ${ready ? "text" : "none"};
+      background-image: url(${mask});
+      font-size: ${fontSize};
+    `
+  }}
 `
