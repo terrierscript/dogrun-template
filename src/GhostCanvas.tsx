@@ -1,7 +1,7 @@
 import React, { useRef, useState, useLayoutEffect, FC } from "react"
 import { Canvas } from "./Canvas"
-type Point = [number, number]
-type Rect = [number, number, number, number]
+export type Point = [number, number]
+export type Rect = [number, number, number, number]
 const getRect = (x1, y1, x2, y2): Rect => {
   const x = Math.min(x1, x2)
   const w = Math.abs(x1 - x2)
@@ -11,10 +11,9 @@ const getRect = (x1, y1, x2, y2): Rect => {
 }
 type DrawFn = (rect: Rect) => void
 export const GhostCanvas: FC<{
-  width: any
-  heigth: any
   onRectDraw: DrawFn
-}> = ({ width, heigth, onRectDraw }) => {
+  [rest: string]: unknown
+}> = ({ onRectDraw, ...rest }) => {
   const ref = useRef<HTMLCanvasElement>()
   const ctxRef = useRef<CanvasRenderingContext2D>()
   const [startPoint, setStartPoint] = useState<Point | null>(null)
@@ -80,8 +79,7 @@ export const GhostCanvas: FC<{
   }
   return (
     <Canvas
-      width={width}
-      heigth={heigth}
+      {...rest}
       ref={ref}
       onMouseDown={(e) => start(e.clientX, e.clientY)}
       onMouseUp={(e) => end()}

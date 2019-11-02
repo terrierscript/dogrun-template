@@ -1,27 +1,20 @@
 import React, { useRef, useState, MouseEventHandler } from "react"
 import { render } from "react-dom"
-import styled, { css } from "styled-components"
 import { MaskCanvas } from "./MaskCanvas"
+import { ResultFont } from "./Fonts"
 
-const ResultCanvas = styled.div`
-  background: black;
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  font-weight: bold;
-  font-size: 2em;
-  ${({ mask }) => css`
-    background-image: url(${mask});
-  `}
-`
 const App = () => {
   const ref = useRef()
   const [mask, setMask] = useState(null)
-  console.log(mask)
+  const [text, setText] = useState("ショッパーズ")
   return (
     <div>
-      <ResultCanvas mask={mask}>ショッパーズ</ResultCanvas>
-      <MaskCanvas onChangeMask={(cnvMask) => setMask(cnvMask)}></MaskCanvas>
+      <ResultFont mask={mask}>{text}</ResultFont>
+      <img src={mask} />
+      <MaskCanvas
+        text={text}
+        onChangeMask={(cnvMask) => setMask(cnvMask)}
+      ></MaskCanvas>
     </div>
   )
 }
