@@ -33,7 +33,9 @@ export const StringSample = ({ mask, fontSize, children }) => {
     <div>
       <SampleCard>
         <h3>結果</h3>
-        <ResultFont mask={mask}>{children}</ResultFont>
+        <ResultFont mask={mask} fontSize={fontSize}>
+          {children}
+        </ResultFont>
         <h3>文章サンプル</h3>
         あの<ResultFont mask={mask}>{children}</ResultFont>の すきとおった風、
         <br />
