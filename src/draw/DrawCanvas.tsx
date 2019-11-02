@@ -16,8 +16,9 @@ export const DrawCanvas: FC<{
   mode: string
   setImageSource: Function
   size: any
+  defaultSource?: HTMLImageElement | HTMLCanvasElement | null
   [rest: string]: unknown
-}> = ({ setImageSource, mode, size, ...rest }) => {
+}> = ({ setImageSource, defaultSource, mode, size, ...rest }) => {
   const ref = useRef<HTMLCanvasElement>()
   const ctxRef = useRef<CanvasRenderingContext2D>()
   const [before, setBefore] = useState<Point | null>(null)
@@ -35,7 +36,11 @@ export const DrawCanvas: FC<{
     }
     ctxRef.current = ctx
     setImageSource(ref.current)
-  }, [])
+    if (defaultSource) {
+      ctx.drawImage(defaultSource, 0, 0)
+    }
+  }, [size, defaultSource])
+
   const getCanvasPos = (mx, my): Point | null => {
     if (!ref.current) {
       return null
@@ -74,7 +79,6 @@ export const DrawCanvas: FC<{
       return
     }
     ctx.beginPath()
-    console.log(before, curr)
     ctx.moveTo(...before)
     ctx.lineTo(...curr)
     ctx.closePath()
@@ -87,6 +91,11 @@ export const DrawCanvas: FC<{
     const ctx = ctxRef.current
     ctx.stroke()
     ctx.closePath()
+    if (ref.current) {
+      const maskImgUrl = ref.current.toDataURL("image/png")
+      console.debug(maskImgUrl)
+    }
+
     setImageSource(ref.current)
   }
   return (

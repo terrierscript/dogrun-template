@@ -5,7 +5,7 @@ const CloakCanvas = styled.canvas`
 `
 export const OutputCanvas: FC<{
   scale: number
-  source: HTMLCanvasElement
+  source: HTMLCanvasElement | HTMLImageElement
   timestamp: number
   baseColor: string
   onChange: (url: string) => unknown
@@ -32,7 +32,6 @@ export const OutputCanvas: FC<{
     ctx.drawImage(source, 0, 0, source.width * scale, source.height * scale)
     const imgUrl = ref.current.toDataURL("image/png")
     onChange(imgUrl)
-    // ctx.restore()
   }, [scale, source, timestamp])
   return (
     <CloakCanvas

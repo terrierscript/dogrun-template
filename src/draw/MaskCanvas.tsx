@@ -1,12 +1,15 @@
 import React, { useRef, useLayoutEffect, useState } from "react"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import { SampleFont } from "../Fonts"
 import { ScaleCaclurator } from "./ScaleCalcurator"
 import { OutputCanvas } from "./OutputCanvas"
 import { DrawCanvas } from "./DrawCanvas"
+import { nnyohhaMask } from "./presetMask"
 const Container = styled.div`
-  /* position: relative; */
-  /* border: 1px solid black; */
+  padding: 1em 0;
+  ${({ height }) => css`
+    min-height: ${height}px;
+  `}
 `
 
 const Mode = ({ mode, onChange }) => {
@@ -36,15 +39,16 @@ const Mode = ({ mode, onChange }) => {
 
 export const MaskCanvas = ({ text, onChangeMask, fontSize }) => {
   const sampleRef = useRef<HTMLElement>()
+  const defaultImageRef = useRef<HTMLImageElement>()
   const [scale, setScale] = useState(1)
   const [imageSource, _setImageSource] = useState<{
-    source: HTMLCanvasElement
+    source: HTMLCanvasElement | HTMLImageElement
     timestamp: number
   } | null>(null)
   const [mode, setMode] = useState("mask")
   const [size, setSize] = useState([0, 0])
 
-  const setImageSource = (elm: HTMLCanvasElement) => {
+  const setImageSource = (elm: HTMLCanvasElement | HTMLImageElement) => {
     _setImageSource({
       source: elm,
       timestamp: new Date().getTime()
@@ -53,6 +57,9 @@ export const MaskCanvas = ({ text, onChangeMask, fontSize }) => {
   useLayoutEffect(() => {
     if (!sampleRef.current) return
     setSize([sampleRef.current.clientWidth, sampleRef.current.clientHeight])
+    if (defaultImageRef.current) {
+      setImageSource(defaultImageRef.current)
+    }
   }, [])
 
   return (
@@ -65,18 +72,24 @@ export const MaskCanvas = ({ text, onChangeMask, fontSize }) => {
             setScale(newScale)
           }}
         />
+        <img src={nnyohhaMask} ref={defaultImageRef} />
       </div>
       <div>
         <Mode
           mode={mode}
           onChange={(mode) => {
-            console.log(mode)
             setMode(mode)
           }}
         />
-        <Container>
+        <button onClick={() => _setImageSource(null)}>Clear Mask</button>
+        <Container height={size[1]}>
           <SampleFont ref={sampleRef}>{text}</SampleFont>
-          <DrawCanvas mode={mode} size={size} setImageSource={setImageSource} />
+          <DrawCanvas
+            mode={mode}
+            size={size}
+            defaultSource={imageSource && imageSource.source}
+            setImageSource={setImageSource}
+          />
 
           {imageSource && (
             <OutputCanvas

@@ -6,34 +6,36 @@ import React, {
 } from "react"
 import { render } from "react-dom"
 import { MaskCanvas } from "./draw/MaskCanvas"
-import { ResultFont } from "./Fonts"
+import styled from "styled-components"
+import { StringSample } from "./ResultOutput"
+import { Title } from "./Title"
+const Input = styled.input`
+  padding: 0.5em;
+  font-size: 1.5em;
+`
+const Body = styled.div`
+  box-sizing: border-box;
+`
 
 const App = () => {
-  const ref = useRef<HTMLElement>()
   const [mask, setMask] = useState(null)
   const [text, setText] = useState("ショッパーズ")
   // const [width, setWidth] = useState(0)
-  const fontSize = "1em"
+  const fontSize = "2em"
   return (
-    <div>
-      <ResultFont ref={ref} mask={mask} fontSize={fontSize}>
-        {text}
-      </ResultFont>
-      {/* <img src={mask || ""} /> */}
-      <div>
-        あの<ResultFont mask={mask}>{text}</ResultFont>の すきとおった風、
-        <br />
-        夏でも底に冷たさをもつ青いそら、 うつくしい森で飾られたモーリオ市、
-        <br />
-        郊外のぎらぎらひかる草の波。
-        <br />
-      </div>
+    <Body>
+      <Title />
+      <Input value={text} onChange={setText} />
+
       <MaskCanvas
-        fontSize={"1em"}
+        fontSize={fontSize}
         text={text}
         onChangeMask={(cnvMask) => setMask(cnvMask)}
       ></MaskCanvas>
-    </div>
+      <StringSample mask={mask} fontSize={fontSize}>
+        {text}
+      </StringSample>
+    </Body>
   )
 }
 
