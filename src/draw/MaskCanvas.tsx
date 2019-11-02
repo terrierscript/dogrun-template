@@ -4,7 +4,7 @@ import { SampleFont } from "../Fonts"
 import { ScaleCaclurator, Cloak } from "./ScaleCalcurator"
 import { OutputCanvas } from "./OutputCanvas"
 import { DrawCanvas } from "./DrawCanvas"
-import { nnyohhaMask } from "./presetMask"
+import { nnyohhaMask, clearMask } from "./presetMask"
 const Container = styled.div`
   padding: 1em 0;
   ${({ height }) => css`
@@ -40,6 +40,7 @@ const Mode = ({ mode, onChange }) => {
 export const MaskCanvas = ({ text, onChangeMask, fontSize }) => {
   const sampleRef = useRef<HTMLElement>()
   const defaultImageRef = useRef<HTMLImageElement>()
+  const clearImageRef = useRef<HTMLImageElement>()
   const [scale, setScale] = useState(1)
   const [imageSource, _setImageSource] = useState<{
     source: HTMLCanvasElement | HTMLImageElement
@@ -73,6 +74,7 @@ export const MaskCanvas = ({ text, onChangeMask, fontSize }) => {
           }}
         />
         <img src={nnyohhaMask} ref={defaultImageRef} />
+        <img src={clearMask} ref={clearImageRef} />
       </Cloak>
       <div>
         <Mode
@@ -81,7 +83,15 @@ export const MaskCanvas = ({ text, onChangeMask, fontSize }) => {
             setMode(mode)
           }}
         />
-        <button onClick={() => _setImageSource(null)}>Clear Mask</button>
+        <button
+          onClick={() => {
+            if (clearImageRef.current) {
+              setImageSource(clearImageRef.current)
+            }
+          }}
+        >
+          Clear Mask
+        </button>
         <Container height={size[1]}>
           <SampleFont ref={sampleRef}>{text}</SampleFont>
           <DrawCanvas

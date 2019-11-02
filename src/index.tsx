@@ -21,7 +21,7 @@ const App = () => {
   const [mask, setMask] = useState(null)
   const [text, setText] = useState("ショッパーズ")
   // const [width, setWidth] = useState(0)
-  const fontSize = "1em"
+  const fontSize = "2em"
   return (
     <Body>
       <Title />

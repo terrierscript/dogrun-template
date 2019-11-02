@@ -13,6 +13,7 @@ export const SampleFont = styled.div`
 `
 export const ResultFont = styled.span`
   display: inline-block;
+  background-size: 100% 100%;
   ${({ mask, fontSize, color }) => {
     const ready = mask && mask.length > 10
     return css`
