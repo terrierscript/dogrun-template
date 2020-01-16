@@ -2,22 +2,22 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@babel/core": "^7.7.7",
-    "@babel/polyfill": "^7.7.0",
-    "@babel/preset-env": "^7.7.7",
-    "@babel/preset-react": "^7.7.4",
-    "@babel/preset-typescript": "^7.7.7",
     "@chakra-ui/core": "^0.5.1",
     "@emotion/core": "^10.0.22",
     "@emotion/styled": "^10.0.23",
+    "@babel/core": "^7.8.3",
+    "@babel/polyfill": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "@babel/preset-react": "^7.8.3",
+    "@babel/preset-typescript": "^7.8.3",
     "@testing-library/react": "^9.4.0",
     "@testing-library/react-hooks": "^3.2.1",
-    "@types/jest": "^24.0.25",
-    "@types/node": "^12.12.22",
+    "@types/jest": "^24.9.0",
+    "@types/node": "^12.12.24",
     "@types/react": "^16.9.17",
     "@types/react-dom": "^16.9.4",
-    "core-js": "^3.6.1",
     "emotion-theming": "^10.0.19",
+    "core-js": "^3.6.4",
     "eslint-plugin-react-hooks": "^2.3.0",
     "jest": "^24.9.0",
     "parcel": "^1.12.4",
@@ -36,9 +36,9 @@
     "lint": "eslint \"src/*\""
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^2.13.0",
-    "@typescript-eslint/parser": "^2.13.0",
+    "@typescript-eslint/eslint-plugin": "^2.16.0",
+    "@typescript-eslint/parser": "^2.16.0",
     "eslint": "^6.8.0",
-    "eslint-plugin-react": "^7.17.0"
+    "eslint-plugin-react": "^7.18.0"
   }
 }
