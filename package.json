@@ -2,6 +2,9 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "@chakra-ui/core": "^0.5.1",
+    "@emotion/core": "^10.0.22",
+    "@emotion/styled": "^10.0.23",
     "@babel/core": "^7.8.3",
     "@babel/polyfill": "^7.8.3",
     "@babel/preset-env": "^7.8.3",
@@ -13,16 +16,17 @@
     "@types/node": "^12.12.24",
     "@types/react": "^16.9.17",
     "@types/react-dom": "^16.9.4",
+    "emotion-theming": "^10.0.19",
     "core-js": "^3.6.4",
     "eslint-plugin-react-hooks": "^2.3.0",
     "jest": "^24.9.0",
     "parcel": "^1.12.4",
     "parcel-bundler": "^1.12.4",
     "prettier": "^1.19.1",
+    "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-test-renderer": "^16.12.0",
-    "styled-components": "^4.4.1",
     "typescript": "^3.7.4"
   },
   "scripts": {
