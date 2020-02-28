@@ -27,7 +27,7 @@
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-test-renderer": "^16.13.0",
-    "typescript": "^3.8.2"
+    "typescript": "^3.8.3"
   },
   "scripts": {
     "start": "parcel src/index.html",
