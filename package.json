@@ -2,8 +2,8 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@babel/core": "^7.11.4",
-    "@babel/preset-env": "^7.11.0",
+    "@babel/core": "^7.11.5",
+    "@babel/preset-env": "^7.11.5",
     "@babel/preset-react": "^7.10.4",
     "@babel/preset-typescript": "^7.10.4",
     "@chakra-ui/core": "^0.8.0",
